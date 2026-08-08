@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sepet - LUXURY BOX</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+    <!-- ========== NAVBAR ========== -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">LUXURY BOX</a>
+            <div class="navbar-links">
+                <a href="index.html">Ana Sayfa</a>
+                <div class="dropdown">
+                    <button class="dropbtn">Kategoriler <i class="fas fa-chevron-down"></i></button>
+                    <div class="dropdown-content">
+                        <a href="kadin.html">Ayakkabılar</a>
+                        <a href="erkek.html">Gözlük & Saat</a>
+                        <a href="cocuk.html">Çantalar</a>
+                    </div>
+                </div>
+                <a href="about.html">Hakkımızda</a>
+                <a href="contact.html">İletişim</a>
+                <a href="cart.html" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </a>
+                <a href="admin.html" class="admin-btn-nav">
+                    <i class="fas fa-user-shield"></i> Admin
+                </a>
+            </div>
+            <div class="hamburger-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== PAGE HEADER ========== -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Alışveriş Sepetiniz</h1>
+            <p>Lüks alışveriş deneyiminize bir adım kaldı</p>
+        </div>
+    </section>
+
+    <!-- ========== CART ========== -->
+    <section class="cart">
+        <div class="container">
+            <div class="cart-content">
+                <div class="cart-items">
+                    <h2>Sepetteki Ürünler</h2>
+                    <div id="cart-items-container">
+                        <!-- Ürünler dinamik olarak eklenecek -->
+                        <p class="empty-cart-message">Sepetiniz boş. Lüks koleksiyonumuzu keşfedin!</p>
+                    </div>
+                </div>
+                <div class="cart-summary">
+                    <h2>Sipariş Özeti</h2>
+                    <div class="summary-details">
+                        <div class="summary-row">
+                            <span>Ara Toplam</span>
+                            <span id="subtotal">0 TL</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Kargo</span>
+                            <span>10.000 TL üzeri ücretsiz</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Toplam</span>
+                            <span id="total">0 TL</span>
+                        </div>
+                    </div>
+                    <!-- SİPARİŞ BUTONU - WHATSAPP'A BAĞLANDI -->
+                    <button id="whatsapp-order-btn" class="btn btn-whatsapp">
+                        <i class="fab fa-whatsapp"></i> Siparişi WhatsApp'tan Tamamla
+                    </button>
+                    <a href="index.html" class="continue-shopping">Alışverişe Devam Et</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== WHATSAPP SABİT BUTON ========== -->
+    <a href="https://wa.me/905439704241?text=Merhaba%2C%20LUXURY%20BOX%20ile%20ilgileniyorum." 
+       class="whatsapp-float" 
+       target="_blank" 
+       rel="noopener noreferrer">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>LUXURY BOX</h3>
+                    <p>Kişisel alışveriş ve lüks marka danışmanlığı.<br />Instagram: @luxurybox.tm</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Hızlı Linkler</h3>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="kadin.html">Ayakkabılar</a></li>
+                        <li><a href="erkek.html">Gözlük & Saat</a></li>
+                        <li><a href="cocuk.html">Çantalar</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>İletişim</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> İstanbul, Türkiye</p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+905439704241">+90 543 970 42 41</a></p>
+                    <p><i class="fas fa-envelope"></i> info@luxurybox.com</p>
+                    <p><i class="fab fa-whatsapp" style="color:#25d366;"></i> <a href="https://wa.me/905439704241" target="_blank">WhatsApp'tan Yaz</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Sosyal Medya</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/905439704241" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 LUXURY BOX | @luxurybox.tm</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ✅ Supabase kütüphanesi -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+
+    <script src="js/script.js"></script>
+    <script src="js/cart.js"></script>
+</body>
+</html>

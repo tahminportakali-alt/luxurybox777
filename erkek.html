@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gözlük & Saat - LUXURY BOX</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+    <!-- ========== NAVBAR ========== -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">LUXURY BOX</a>
+            <div class="navbar-links">
+                <a href="index.html">Ana Sayfa</a>
+                <div class="dropdown">
+                    <button class="dropbtn">Kategoriler <i class="fas fa-chevron-down"></i></button>
+                    <div class="dropdown-content">
+                        <a href="kadin.html">Ayakkabılar</a>
+                        <a href="erkek.html">Gözlük & Saat</a>
+                        <a href="cocuk.html">Çantalar</a>
+                    </div>
+                </div>
+                <a href="about.html">Hakkımızda</a>
+                <a href="contact.html">İletişim</a>
+                <a href="cart.html" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </a>
+                <a href="admin.html" class="admin-btn-nav">
+                    <i class="fas fa-user-shield"></i> Admin
+                </a>
+            </div>
+            <div class="hamburger-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== PAGE HEADER ========== -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Gözlük & Saat Koleksiyonu</h1>
+            <p>PRADA, Gentle Monster, Rolex, Cartier ve daha fazlası...</p>
+        </div>
+    </section>
+
+    <!-- ========== PRODUCTS ========== -->
+    <section class="products">
+        <div class="container">
+            <div class="products-grid" id="productGrid">
+                <!-- ✅ TAMAMEN BOŞ - JavaScript dinamik olarak dolduracak -->
+                <!-- Ürünler Supabase'den kategori = 'gozluk-saat' olanlar gelecek -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== WHATSAPP SABİT BUTON ========== -->
+    <a href="https://wa.me/905439704241?text=Merhaba%2C%20LUXURY%20BOX%20ile%20ilgileniyorum." 
+       class="whatsapp-float" 
+       target="_blank" 
+       rel="noopener noreferrer">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>LUXURY BOX</h3>
+                    <p>Kişisel alışveriş ve lüks marka danışmanlığı.<br />Instagram: @luxurybox.tm</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Hızlı Linkler</h3>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="kadin.html">Ayakkabılar</a></li>
+                        <li><a href="erkek.html">Gözlük & Saat</a></li>
+                        <li><a href="cocuk.html">Çantalar</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>İletişim</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> İstanbul, Türkiye</p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+905439704241">+90 543 970 42 41</a></p>
+                    <p><i class="fas fa-envelope"></i> info@luxurybox.com</p>
+                    <p><i class="fab fa-whatsapp" style="color:#25d366;"></i> <a href="https://wa.me/905439704241" target="_blank">WhatsApp'tan Yaz</a></p>
+                    <p><i class="fab fa-instagram" style="color:#E4405F;"></i> <a href="https://instagram.com/luxurybox.tm" target="_blank">@luxurybox.tm</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Sosyal Medya</h3>
+                    <div class="social-icons">
+                        <a href="https://instagram.com/luxurybox.tm" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/905439704241" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 LUXURY BOX | @luxurybox.tm</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ✅ Supabase kütüphanesi -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+
+    <script src="js/script.js"></script>
+    <script src="js/cart.js"></script>
+
+    <!-- ========================================== -->
+    <!-- ✅ EKLENDİ: Gözlük & Saat Filtresi -->
+    <!-- ========================================== -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Sayfa açıldığında sadece 'gozluk-saat' kategorisindeki ürünleri göster
+        if (typeof supabaseClient !== 'undefined') {
+            loadProductsByCategory('gozluk-saat');
+        } else {
+            console.error('⚠️ supabaseClient tanımlı değil!');
+        }
+    });
+
+    async function loadProductsByCategory(kategori) {
+        const container = document.getElementById('productGrid');
+        if (!container) return;
+
+        container.innerHTML = '<p style="text-align:center; padding:40px;">🔄 Yükleniyor...</p>';
+
+        try {
+            const { data, error } = await supabaseClient
+                .from('urunler')
+                .select('*')
+                .eq('kategori', kategori)  // ← SADECE GÖZLÜK & SAAT
+                .order('id', { ascending: false });
+
+            if (error) {
+                console.error('❌ Ürünler alınamadı:', error);
+                container.innerHTML = '<p style="text-align:center; padding:40px; color:#ff6b6b;">❌ Ürünler yüklenirken hata oluştu!</p>';
+                return;
+            }
+
+            if (!data || data.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center; padding:60px; grid-column:1/-1;">
+                        <i class="fas fa-glasses" style="font-size:48px; color:#ddd; margin-bottom:20px; display:block;"></i>
+                        <h3 style="color:#999;">Henüz gözlük & saat ürünü eklenmemiş.</h3>
+                        <p style="color:#bbb; margin-top:10px;">Admin panelinden ürün ekleyebilirsiniz.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Ürünleri göster
+            let html = '';
+            data.forEach(function(product) {
+                html += `
+                    <div class="product-card" data-id="${product.id}">
+                        <div class="product-image">
+                            <img src="${product.resim}" alt="${product.isim}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22300%22 height=%22300%22/%3E%3Ctext x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-family=%22Arial%22 font-size=%2216%22%3EResim%20Yok%3C/text%3E%3C/svg%3E'" />
+                            ${product.marka ? `<span class="product-brand">${product.marka}</span>` : ''}
+                        </div>
+                        <div class="product-info">
+                            <h3>${product.isim}</h3>
+                            ${product.marka ? `<p class="brand-name">${product.marka}</p>` : ''}
+                            <p class="price">${product.fiyat.toLocaleString()} TL</p>
+                            <button class="add-to-cart" data-id="${product.id}" data-name="${product.isim}" data-price="${product.fiyat}" data-image="${product.resim}">
+                                <i class="fas fa-shopping-cart"></i> Sepete Ekle
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+
+            // Sepete ekle butonlarına event listener ekle
+            document.querySelectorAll('.add-to-cart').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const product = {
+                        id: this.dataset.id,
+                        name: this.dataset.name,
+                        price: parseInt(this.dataset.price),
+                        image: this.dataset.image,
+                        quantity: 1
+                    };
+                    if (typeof addToCart === 'function') {
+                        addToCart(product);
+                    } else {
+                        console.warn('⚠️ addToCart fonksiyonu bulunamadı! cart.js yüklendi mi?');
+                        alert('Ürün sepete eklendi! (cart.js yüklenmemiş olabilir)');
+                    }
+                });
+            });
+
+        } catch (error) {
+            console.error('❌ Hata:', error);
+            container.innerHTML = '<p style="text-align:center; padding:40px; color:#ff6b6b;">❌ Bir hata oluştu!</p>';
+        }
+    }
+    </script>
+</body>
+</html>

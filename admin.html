@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Paneli - LUXURY BOX</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+
+    <!-- ===== LOGIN ===== -->
+    <div id="adminLoginPage" class="admin-login-page">
+        <div class="admin-login-box">
+            <div class="lock-icon"><i class="fas fa-user-shield"></i></div>
+            <h2>Admin Paneli</h2>
+            <p class="subtitle">LUXURY BOX yönetim paneline hoş geldiniz</p>
+            <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Kullanıcı Adı</label>
+                    <input type="text" id="adminUsername" placeholder="Kullanıcı adınızı girin" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Şifre</label>
+                    <input type="password" id="adminPassword" placeholder="Şifrenizi girin" required>
+                </div>
+                <div id="loginError" class="error"></div>
+                <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt"></i> Giriş Yap</button>
+            </form>
+            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Siteye Dön</a>
+        </div>
+    </div>
+
+    <!-- ===== ADMIN PANEL ===== -->
+    <div id="adminPanelPage" style="display:none;">
+        <div class="admin-panel-container">
+            <div class="admin-panel-header">
+                <h1><i class="fas fa-cog"></i> Admin Paneli</h1>
+                <button class="logout-btn" onclick="handleAdminLogout()"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</button>
+            </div>
+
+            <div class="admin-card">
+                <h3><i class="fas fa-plus-circle"></i> Yeni Ürün Ekle</h3>
+                <form id="addProductForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Ürün Adı <span style="color:#d47b8e;">*</span></label>
+                            <input type="text" id="adminProductIsim" placeholder="Örn: Loro Piana Summer Walk" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Marka</label>
+                            <input type="text" id="adminProductMarka" placeholder="Örn: Loro Piana">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Fiyat (TL) <span style="color:#d47b8e;">*</span></label>
+                            <input type="number" id="adminProductFiyat" placeholder="Örn: 14900" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Kategori <span style="color:#d47b8e;">*</span></label>
+                            <select id="adminProductKategori" required style="width:100%; padding:12px 16px; background:#f9f9f9; border:1px solid rgba(26,26,26,0.1); border-radius:10px; color:#1A1A1A; font-size:14px;">
+                                <option value="anasayfa">🏠 Ana Sayfa</option>
+                                <option value="ayakkabilar">👟 Ayakkabılar</option>
+                                <option value="gozluk-saat">🕶️ Gözlük & Saat</option>
+                                <option value="cantalar">👜 Çantalar</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- ===== RESİM YÜKLEME ALANI ===== -->
+                    <div class="form-group">
+                        <label>Ürün Resmi <span style="color:#d47b8e;">*</span></label>
+                        
+                        <div style="display:flex; gap:10px; margin-bottom:12px;">
+                            <button type="button" onclick="document.getElementById('fileInput').click()" 
+                                    style="flex:1; padding:12px; background:#f4c2c2; border:none; border-radius:10px; cursor:pointer; font-family:'Poppins',sans-serif; font-weight:600; font-size:14px; color:#1A1A1A;">
+                                <i class="fas fa-images"></i> Galeriden Seç
+                            </button>
+                            <button type="button" onclick="kameraAc()" 
+                                    style="flex:1; padding:12px; background:#1A1A1A; color:#fff; border:none; border-radius:10px; cursor:pointer; font-family:'Poppins',sans-serif; font-weight:600; font-size:14px;">
+                                <i class="fas fa-camera"></i> Kamerayla Çek
+                            </button>
+                        </div>
+                        
+                        <input type="file" id="fileInput" accept="image/*" style="display:none;">
+                        
+                        <div id="imagePreview" style="display:none; margin-bottom:10px;">
+                            <img id="previewImg" src="" alt="Önizleme" style="max-width:100%; max-height:200px; border-radius:10px; border:2px solid #f4c2c2;">
+                        </div>
+                        
+                        <input type="hidden" id="adminProductResim">
+                        <div id="uploadStatus" style="font-size:0.85rem; color:#777; text-align:center;"></div>
+                    </div>
+                    <!-- ===== RESİM YÜKLEME ALANI SONU ===== -->
+
+                    <button type="button" class="btn-add-product" onclick="handleAddProduct(event)">
+                        <i class="fas fa-save"></i> Ürün Ekle
+                    </button>
+                </form>
+            </div>
+
+            <div class="admin-card">
+                <h3><i class="fas fa-list"></i> Mevcut Ürünler</h3>
+                <div id="adminProductList" class="admin-product-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ SUPABASE CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+    // ============================================
+    // SUPABASE BAĞLANTISI - YENİ PROJE
+    // ============================================
+    const SUPABASE_URL = 'https://vgflqqpxaxvqsuggfvzd.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_Hd_b2fZwK3Nmgt8y8m3fdw_Hd8d9gEp';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    console.log('✅ Supabase bağlantısı kuruldu');
+    console.log('📡 URL:', SUPABASE_URL);
+
+    // ============================================
+    // ADMIN KREDİSİ
+    // ============================================
+    const ADMIN_CREDENTIALS = { username: 'admin', password: '123456' };
+
+    // ============================================
+    // GİRİŞ
+    // ============================================
+    function handleAdminLogin(event) {
+        event.preventDefault();
+        const username = document.getElementById('adminUsername').value.trim();
+        const password = document.getElementById('adminPassword').value.trim();
+        const errorElement = document.getElementById('loginError');
+        
+        if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+            errorElement.className = 'error success';
+            errorElement.textContent = 'Giriş başarılı!';
+            document.getElementById('adminLoginPage').style.display = 'none';
+            document.getElementById('adminPanelPage').style.display = 'block';
+            loadProducts();
+        } else {
+            errorElement.className = 'error show';
+            errorElement.textContent = 'Hatalı kullanıcı adı veya şifre!';
+        }
+    }
+
+    // ============================================
+    // ÇIKIŞ
+    // ============================================
+    function handleAdminLogout() {
+        if (confirm('Çıkış yapmak istediğinize emin misiniz?')) {
+            document.getElementById('adminPanelPage').style.display = 'none';
+            document.getElementById('adminLoginPage').style.display = 'flex';
+            document.getElementById('loginError').className = 'error';
+            document.getElementById('loginError').textContent = '';
+        }
+    }
+
+    // ============================================
+    // TOAST MESAJI
+    // ============================================
+    function showToast(message, type = 'success') {
+        const oldToast = document.querySelector('.admin-toast');
+        if (oldToast) oldToast.remove();
+
+        const toast = document.createElement('div');
+        toast.className = 'admin-toast';
+        const icon = type === 'success' ? '✅' : '❌';
+        const color = type === 'success' ? '#51cf66' : '#ff6b6b';
+        toast.innerHTML = `<div style="display:flex; align-items:center; gap:12px; color:#fff;"><span style="color:${color};">${icon}</span><span>${message}</span></div>`;
+        toast.style.border = '1px solid ' + color;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => { toast.classList.add('show'); }, 50);
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => { if (toast.parentNode) toast.remove(); }, 400);
+        }, 3000);
+    }
+
+    // ============================================
+    // RESİM YÜKLEME (Galeri)
+    // ============================================
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('fileInput');
+        if (fileInput) {
+            fileInput.addEventListener('change', async function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                if (file.size > 5 * 1024 * 1024) {
+                    showToast('Dosya çok büyük! Maksimum 5MB.', 'error');
+                    this.value = '';
+                    return;
+                }
+
+                if (!file.type.startsWith('image/')) {
+                    showToast('Lütfen geçerli bir resim dosyası seçin!', 'error');
+                    this.value = '';
+                    return;
+                }
+
+                const statusDiv = document.getElementById('uploadStatus');
+                statusDiv.textContent = '📤 Yükleniyor...';
+                statusDiv.style.color = '#f4c2c2';
+
+                try {
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `products/${Date.now()}.${fileExt}`;
+
+                    // ⚠️ Bucket adını kontrol et! ('images' veya 'urun-resimleri')
+                    const { data, error } = await supabaseClient.storage
+                        .from('images')
+                        .upload(fileName, file);
+
+                    if (error) {
+                        console.error('Upload error:', error);
+                        statusDiv.textContent = '❌ Hata: ' + error.message;
+                        statusDiv.style.color = '#ff6b6b';
+                        showToast('Resim yüklenirken hata oluştu!', 'error');
+                        return;
+                    }
+
+                    const { data: urlData } = supabaseClient.storage
+                        .from('images')
+                        .getPublicUrl(fileName);
+
+                    document.getElementById('adminProductResim').value = urlData.publicUrl;
+
+                    const preview = document.getElementById('imagePreview');
+                    const img = document.getElementById('previewImg');
+                    img.src = urlData.publicUrl;
+                    preview.style.display = 'block';
+
+                    statusDiv.textContent = '✅ Resim yüklendi!';
+                    statusDiv.style.color = '#51cf66';
+                    showToast('Resim başarıyla yüklendi!');
+
+                } catch (error) {
+                    console.error('Resim yükleme hatası:', error);
+                    statusDiv.textContent = '❌ Hata oluştu!';
+                    statusDiv.style.color = '#ff6b6b';
+                    showToast('Resim yüklenirken hata oluştu!', 'error');
+                }
+            });
+        }
+    });
+
+    // ============================================
+    // KAMERA İLE FOTOĞRAF ÇEK
+    // ============================================
+    async function kameraAc() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+                video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } }
+            });
+
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top:0; left:0; width:100%; height:100%;
+                background: rgba(0,0,0,0.95); z-index:10002;
+                display:flex; flex-direction:column; align-items:center; justify-content:center;
+                padding:20px;
+            `;
+
+            const video = document.createElement('video');
+            video.srcObject = stream;
+            video.autoplay = true;
+            video.style.cssText = `max-width:100%; max-height:70vh; border-radius:16px; background:#000;`;
+
+            const controls = document.createElement('div');
+            controls.style.cssText = `margin-top:20px; display:flex; gap:20px;`;
+
+            const captureBtn = document.createElement('button');
+            captureBtn.innerHTML = '📸 Çek';
+            captureBtn.style.cssText = `
+                padding:14px 40px; border-radius:50px; border:4px solid #fff;
+                background:#f4c2c2; color:#1A1A1A; cursor:pointer; font-size:18px;
+                font-weight:600; font-family:'Poppins',sans-serif;
+                transition: all 0.3s ease;
+            `;
+
+            const closeBtn = document.createElement('button');
+            closeBtn.innerHTML = '✕ Kapat';
+            closeBtn.style.cssText = `
+                padding:14px 30px; border-radius:50px; border:2px solid #fff;
+                background:transparent; color:#fff; cursor:pointer; font-size:16px;
+                font-family:'Poppins',sans-serif;
+                transition: all 0.3s ease;
+            `;
+
+            controls.appendChild(captureBtn);
+            controls.appendChild(closeBtn);
+            modal.appendChild(video);
+            modal.appendChild(controls);
+            document.body.appendChild(modal);
+
+            captureBtn.onclick = async () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+
+                canvas.toBlob(async (blob) => {
+                    const file = new File([blob], `kamera_${Date.now()}.jpg`, { type: 'image/jpeg' });
+
+                    stream.getTracks().forEach(track => track.stop());
+                    modal.remove();
+
+                    const statusDiv = document.getElementById('uploadStatus');
+                    statusDiv.textContent = '📤 Fotoğraf yükleniyor...';
+                    statusDiv.style.color = '#f4c2c2';
+
+                    try {
+                        const fileName = `products/kamera_${Date.now()}.jpg`;
+                        
+                        // ⚠️ Bucket adını kontrol et! ('images' veya 'urun-resimleri')
+                        const { data, error } = await supabaseClient.storage
+                            .from('images')
+                            .upload(fileName, file);
+
+                        if (error) {
+                            statusDiv.textContent = '❌ Hata: ' + error.message;
+                            statusDiv.style.color = '#ff6b6b';
+                            showToast('Fotoğraf yüklenirken hata oluştu!', 'error');
+                            return;
+                        }
+
+                        const { data: urlData } = supabaseClient.storage
+                            .from('images')
+                            .getPublicUrl(fileName);
+
+                        document.getElementById('adminProductResim').value = urlData.publicUrl;
+
+                        const preview = document.getElementById('imagePreview');
+                        const img = document.getElementById('previewImg');
+                        img.src = urlData.publicUrl;
+                        preview.style.display = 'block';
+
+                        statusDiv.textContent = '✅ Fotoğraf yüklendi!';
+                        statusDiv.style.color = '#51cf66';
+                        showToast('Fotoğraf başarıyla yüklendi!');
+
+                    } catch (error) {
+                        console.error('Fotoğraf yükleme hatası:', error);
+                        statusDiv.textContent = '❌ Hata oluştu!';
+                        statusDiv.style.color = '#ff6b6b';
+                        showToast('Fotoğraf yüklenirken hata oluştu!', 'error');
+                    }
+                }, 'image/jpeg', 0.95);
+            };
+
+            closeBtn.onclick = () => {
+                stream.getTracks().forEach(track => track.stop());
+                modal.remove();
+            };
+
+        } catch (error) {
+            console.error('Kamera hatası:', error);
+            showToast('Kamera açılamadı! Lütfen izin verin.', 'error');
+        }
+    }
+
+    // ============================================
+    // ÜRÜN EKLEME
+    // ============================================
+    async function handleAddProduct(event) {
+        event.preventDefault();
+        
+        const isim = document.getElementById('adminProductIsim').value.trim();
+        const marka = document.getElementById('adminProductMarka').value.trim();
+        const fiyat = parseInt(document.getElementById('adminProductFiyat').value);
+        const resim = document.getElementById('adminProductResim').value.trim();
+        const kategori = document.getElementById('adminProductKategori').value;
+
+        if (!isim || !fiyat || !resim) {
+            showToast('Lütfen tüm zorunlu alanları doldurun!', 'error');
+            return;
+        }
+
+        try {
+            const { data, error } = await supabaseClient
+                .from('urunler')
+                .insert([{ isim, marka: marka || '', fiyat, resim, kategori }])
+                .select();
+
+            if (error) {
+                console.error('Ürün ekleme hatası:', error);
+                showToast('❌ ' + error.message, 'error');
+                return;
+            }
+
+            document.getElementById('adminProductIsim').value = '';
+            document.getElementById('adminProductMarka').value = '';
+            document.getElementById('adminProductFiyat').value = '';
+            document.getElementById('adminProductResim').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+            document.getElementById('previewImg').src = '';
+            document.getElementById('fileInput').value = '';
+            document.getElementById('uploadStatus').textContent = '';
+            
+            loadProducts();
+            showToast(`✅ "${isim}" başarıyla eklendi!`);
+            
+        } catch (error) {
+            console.error('Hata:', error);
+            showToast('❌ Beklenmeyen bir hata oluştu!', 'error');
+        }
+    }
+
+    // ============================================
+    // ÜRÜN LİSTELEME
+    // ============================================
+    async function loadProducts() {
+        const container = document.getElementById('adminProductList');
+        container.innerHTML = '<p class="loading-text">📦 Ürünler yükleniyor...</p>';
+        
+        try {
+            const { data, error } = await supabaseClient
+                .from('urunler')
+                .select('*')
+                .order('id', { ascending: false });
+
+            if (error) {
+                console.error('Listeleme hatası:', error);
+                container.innerHTML = '<div class="no-products">❌ Ürünler yüklenirken hata oluştu!</div>';
+                return;
+            }
+
+            if (!data || data.length === 0) {
+                container.innerHTML = '<div class="no-products">📭 Henüz ürün eklenmemiş.</div>';
+                return;
+            }
+
+            let html = '';
+            data.forEach(function(product) {
+                let categoryName = '🏠 Ana Sayfa';
+                if (product.kategori === 'ayakkabilar') categoryName = '👟 Ayakkabılar';
+                else if (product.kategori === 'gozluk-saat') categoryName = '🕶️ Gözlük & Saat';
+                else if (product.kategori === 'cantalar') categoryName = '👜 Çantalar';
+                
+                html += `
+                    <div class="admin-product-item">
+                        <img src="${product.resim}" alt="${product.isim}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-family=%22Arial%22 font-size=%2214%22%3EResim%20Yok%3C/text%3E%3C/svg%3E'" />
+                        <div class="admin-product-info">
+                            <h4>${product.isim}</h4>
+                            ${product.marka ? `<p class="brand">${product.marka}</p>` : ''}
+                            <p class="price">${product.fiyat.toLocaleString()} TL</p>
+                            <p class="category-tag"><i class="fas fa-tag"></i> ${categoryName}</p>
+                        </div>
+                        <button class="delete-product-btn" onclick="deleteProduct('${product.id}')">
+                            <i class="fas fa-trash"></i> Sil
+                        </button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+            
+        } catch (error) {
+            console.error('Hata:', error);
+            container.innerHTML = '<div class="no-products">❌ Ürünler yüklenirken hata oluştu!</div>';
+        }
+    }
+
+    // ============================================
+    // ÜRÜN SİLME
+    // ============================================
+    async function deleteProduct(id) {
+        if (!confirm('Bu ürünü silmek istediğinize emin misiniz?')) return;
+        
+        try {
+            const { error } = await supabaseClient
+                .from('urunler')
+                .delete()
+                .eq('id', id);
+
+            if (error) {
+                console.error('Silme hatası:', error);
+                showToast('❌ ' + error.message, 'error');
+                return;
+            }
+
+            loadProducts();
+            showToast('✅ Ürün başarıyla silindi.');
+            
+        } catch (error) {
+            console.error('Hata:', error);
+            showToast('❌ Beklenmeyen bir hata oluştu!', 'error');
+        }
+    }
+
+    // ============================================
+    // SAYFA YÜKLENDİĞİNDE
+    // ============================================
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('✅ Admin paneli başarıyla yüklendi!');
+        console.log('📡 Supabase URL:', SUPABASE_URL);
+        
+        document.getElementById('adminLoginForm').addEventListener('submit', handleAdminLogin);
+        document.getElementById('addProductForm').addEventListener('submit', handleAddProduct);
+    });
+    </script>
+
+</body>
+</html>

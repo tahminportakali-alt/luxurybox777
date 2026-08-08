@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>İletişim - LUXURY BOX</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+    <!-- ========== NAVBAR ========== -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">LUXURY BOX</a>
+            <div class="navbar-links">
+                <a href="index.html">Ana Sayfa</a>
+                <div class="dropdown">
+                    <button class="dropbtn">Kategoriler <i class="fas fa-chevron-down"></i></button>
+                    <div class="dropdown-content">
+                        <a href="kadin.html">Ayakkabılar</a>
+                        <a href="erkek.html">Gözlük & Saat</a>
+                        <a href="cocuk.html">Çantalar</a>
+                    </div>
+                </div>
+                <a href="about.html">Hakkımızda</a>
+                <a href="contact.html">İletişim</a>
+                <a href="cart.html" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </a>
+                <a href="admin.html" class="admin-btn-nav">
+                    <i class="fas fa-user-shield"></i> Admin
+                </a>
+            </div>
+            <div class="hamburger-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== PAGE HEADER ========== -->
+    <section class="page-header">
+        <div class="container">
+            <h1>İletişim</h1>
+            <p>Lüks alışveriş deneyiminiz için buradayız</p>
+        </div>
+    </section>
+
+    <!-- ========== CONTACT ========== -->
+    <section class="contact">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h2>Bize Ulaşın</h2>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p><strong>Adres:</strong> İstanbul, Türkiye</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <p><strong>Telefon:</strong> <a href="tel:+905439704241">+90 543 970 42 41</a></p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fab fa-whatsapp" style="color:#25d366;"></i>
+                        <p><strong>WhatsApp:</strong> <a href="https://wa.me/905439704241" target="_blank">+90 543 970 42 41</a></p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <p><strong>E-posta:</strong> info@luxurybox.com</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fab fa-instagram" style="color:#E4405F;"></i>
+                        <p><strong>Instagram:</strong> <a href="https://instagram.com/luxurybox.tm" target="_blank">@luxurybox.tm</a></p>
+                    </div>
+
+                    <div class="social-media">
+                        <h3>Sosyal Medya</h3>
+                        <div class="social-icons">
+                            <a href="https://instagram.com/luxurybox.tm" target="_blank"><i class="fab fa-instagram"></i></a>
+                            <a href="https://wa.me/905439704241" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                            <a href="#"><i class="fab fa-telegram"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <h2>Mesaj Gönderin</h2>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="fullName" placeholder="Ad Soyad" required />
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" placeholder="E-posta Adresiniz" required />
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="phone" placeholder="Telefon Numaranız" />
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" placeholder="Mesajınız..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Gönder
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- HARİTA -->
+            <div class="map">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d192695.5067488571!2d28.97814439746175!3d41.00579514421128!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14caa7040068086b%3A0xe1d6e8ad7c9c2d0d!2z0JjRgdGC0LDQvdCx0YPQuywg0KLRg9GA0YbQuNGP!5e0!3m2!1str!2s!4v1700000000000!5m2!1str!2s" 
+                    width="100%" 
+                    height="300" 
+                    style="border:0; border-radius:16px;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== WHATSAPP SABİT BUTON ========== -->
+    <a href="https://wa.me/905439704241?text=Merhaba%2C%20LUXURY%20BOX%20ile%20ilgileniyorum." 
+       class="whatsapp-float" 
+       target="_blank" 
+       rel="noopener noreferrer">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>LUXURY BOX</h3>
+                    <p>Kişisel alışveriş ve lüks marka danışmanlığı.<br />Instagram: @luxurybox.tm</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Hızlı Linkler</h3>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="kadin.html">Ayakkabılar</a></li>
+                        <li><a href="erkek.html">Gözlük & Saat</a></li>
+                        <li><a href="cocuk.html">Çantalar</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>İletişim</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> İstanbul, Türkiye</p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+905439704241">+90 543 970 42 41</a></p>
+                    <p><i class="fas fa-envelope"></i> info@luxurybox.com</p>
+                    <p><i class="fab fa-whatsapp" style="color:#25d366;"></i> <a href="https://wa.me/905439704241" target="_blank">WhatsApp'tan Yaz</a></p>
+                    <p><i class="fab fa-instagram" style="color:#E4405F;"></i> <a href="https://instagram.com/luxurybox.tm" target="_blank">@luxurybox.tm</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Sosyal Medya</h3>
+                    <div class="social-icons">
+                        <a href="https://instagram.com/luxurybox.tm" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/905439704241" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 LUXURY BOX | @luxurybox.tm</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ✅ Supabase kütüphanesi -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
